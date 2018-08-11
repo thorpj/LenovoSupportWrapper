@@ -24,6 +24,8 @@ module LenovoSupport
     # end
 
     def self.find(serial)
+      # Product, Parts, Contents{Driver, Manual}
+      product = LenovoSupport::ProductParser.new serial
 
     end
   end
