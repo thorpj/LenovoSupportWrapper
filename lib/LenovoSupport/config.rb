@@ -4,7 +4,7 @@ module LenovoSupport
 
       attr_accessor :config
       def initialize
-        @config = YAML::load_file('config/config.yaml')
+        @config = YAML::load_file('../config/config.yaml')
       end
 
       def [](v)
@@ -16,8 +16,8 @@ module LenovoSupport
 
       public
 
-      def api_token(val)
-        @config[:api_token] = val
+      def access_token(val)
+        @config[:access_token] = val
       end
 
 

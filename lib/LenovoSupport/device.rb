@@ -1,6 +1,3 @@
-require 'faraday'
-require 'json'
-
 module LenovoSupport
   class Device
     include ActiveAttr::Model
@@ -17,16 +14,17 @@ module LenovoSupport
     validates :machine_type, presence: true
     validates :model, presence: true
     validates :in_warranty, presence: true
+    validates :shipped_text, presence: true
+    validates :warranty_text, presence: true
 
-
-    def self.all
-      objects = []
-      product_parser = ProductParser LenovoSupport::Base.get_request('Product')
-      product_parser.to_h
-    end
+    # def self.all
+    #   objects = []
+    #   product_parser = ProductParser LenovoSupport::Base.get_request('Product')
+    #   product_parser.to_h
+    # end
 
     def self.find(serial)
-      response = Faraday.get("#{}")
+
     end
   end
 end

@@ -1,47 +1,63 @@
-class ProductParser
-  def initialize(data)
-    @data = data
-  end
+module LenovoSupport
+  class ProductParser
+    def initialize(serial)
+      @data = LenovoSupport::Base.get_request("Product/#{serial}")
+    end
 
-  def to_h
-    {
-        :serial => serial,
-        :name => name,
-        :machine_type => machine_type,
-        :model => model,
-        :in_warranty => in_warranty
-    }
-  end
+    def data
+      @data
+    end
 
-  def serial
-    serial = id_parts[-1]
-  end
+    def to_h
+      {
+          :serial => serial,
+          :name => name,
+          :machine_type => machine_type,
+          :model => model,
+          :in_warranty => in_warranty,
+          :purchased_text => purchased_text,
+          :warranty_text => warranty_text,
+      }
+    end
 
-  def name
-    name_parts = @data["Name"].split(" ")
-    name_parts[0]
+    def serial
+      serial = id_parts[-1]
+    end
 
-  end
+    def name
+      name_parts = @data["Name"].split(" ")
+      name_parts[0]
 
-  def machine_type
-    mtm[0,3]
-  end
+    end
 
-  def model
-    mtm[4..-1]
-  end
+    def machine_type
+      mtm[0,4]
+    end
 
-  def in_warranty
-    true.to_s == @data["InWarranty"].downcase
-  end
+    def model
+      mtm[4..-1]
+    end
 
-  private
+    def in_warranty
+      @data["InWarranty"]
+    end
 
-  def id_parts
-    @data["ID"].split("/")
-  end
+    def purchased_text
+      @data["Purchased"]
+    end
 
-  def mtm
-    id_parts[-2]
+    def warranty_text
+      @data["Warranty"]
+    end
+
+    private
+
+    def id_parts
+      @data["ID"].split("/")
+    end
+
+    def mtm
+      id_parts[-2]
+    end
   end
 end
