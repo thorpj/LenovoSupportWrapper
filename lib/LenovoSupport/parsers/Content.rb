@@ -1,7 +1,8 @@
 module LenovoSupport
   class ContentParser
     def initialize(serial)
-      @data = LenovoSupport::Base.get(:Content, {Product: serial})
+      @data = LenovoSupport::Base.get_request("Content", {Product: serial})
+      @contents = {}
     end
 
     # def drivers
@@ -18,25 +19,27 @@ module LenovoSupport
     # end
 
     def contents
-      LenovoSupport::config[:allowed_paths].each do |path|
-
+      # unless @contents.empty?
+      #   return @contents
+      # end
+      LenovoSupport::config[:allowed_content].each do |path|
+        contents[path] = []
       end
+
       @data.each do |object|
-        if LenovoSupport::config[:allowed_paths].include? object[:Type] then
-          case object['Type']
-          #TODO Create a dynamic solution
-          #TODO exception handling
-          when 'Driver'
-            obj = DriverParser.new object[:ID]
-          when 'Manual'
-            obj = ManualParser.new object[:ID]
-          end
-          parser_objects << obj
-        else
-          raise Exception #TODO Create InvalidURLPathException
+        type = object[:Type]
+        if contents.key? type then
+          contents[type] << object
         end
-
       end
+    end
+
+    def drivers
+      contents[:Driver]
+    end
+
+    def manuals
+      contents[:Manual]
     end
   end
 
