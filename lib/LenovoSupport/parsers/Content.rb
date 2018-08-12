@@ -1,51 +1,54 @@
 module LenovoSupport
   class ContentParser
     def initialize(serial)
-      @data = LenovoSupport::Base.get_request("Content", {Product: serial})
-      @contents = {}
+      @data = LenovoSupport::Base.get_request("Content", {"Product" => serial})
+      @contents = contents
+      @drivers = []
+      @manuals = []
     end
 
-    # def drivers
-    #   drivers = []
-    #   @data.each do |object|
-    #     if object[:Type] == "Driver"
-    #     drivers << DriverParser.new object[:ID]
-    #     end
-    # end
-    #
-    # def manuals
-    #   manuals = []
-    #
-    # end
-
     def contents
-      # unless @contents.empty?
-      #   return @contents
-      # end
+      @contents ||= {}
+      unless @contents.empty?
+        return @contents
+      end
       LenovoSupport::config[:allowed_content].each do |path|
-        contents[path] = []
+        @contents[path] = []
       end
 
       @data.each do |object|
-        type = object[:Type]
-        if contents.key? type then
-          contents[type] << object
+        type = object["Type"]
+        if @contents.key? type
+          @contents[type] << object
         end
       end
+      @contents
     end
 
     def drivers
-      contents[:Driver]
+      unless @drivers.empty?
+        return @drivers
+      end
+      contents["Driver"].each do |content|
+        @drivers << DriverParser.new(content["ID"])
+      end
+      @drivers
     end
 
     def manuals
-      contents[:Manual]
+      unless @manuals.empty?
+        return @manuals
+      end
+      contents["Manual"].each do |content|
+        @manuals << ManualParser.new(content["ID"])
+      end
+      @manuals
     end
   end
 
   class DriverParser
     def initialize(id)
-      @data = LenovoSupport::Base.get("Content", {ID: id})
+      @data = LenovoSupport::Base.get_request("Content", {"ID" => id})
     end
 
     def to_h
@@ -62,7 +65,7 @@ module LenovoSupport
     end
 
     def id
-      @data[:ID]
+      @data["ID"]
     end
 
     def released
@@ -91,7 +94,10 @@ module LenovoSupport
 
     def files
       files = []
-      files << File
+      @data["Files"].each do |file|
+        files << LenovoSupport::FileParser.new(file)
+      end
+      files
     end
   end
 
@@ -136,8 +142,16 @@ module LenovoSupport
   end
 
   class ManualParser
-    def initialize(data)
-      @data = data
+    def initialize(id)
+      @data = LenovoSupport::Base.get_request("Content", {"ID" => id})
+    end
+
+    def inspect
+      self.to_h
+    end
+
+    def to_s
+      self.to_h.to_s
     end
 
     def to_h
