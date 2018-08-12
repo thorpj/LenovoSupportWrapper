@@ -1,10 +1,5 @@
-base_url: http://Supportapi.lenovo.com/v2.5/
-url_suffixes:
-  - Catalog
-  - Product/ID
-  - Content/ID
-  - Warranty/ID
-  - Part/ID
-  - Accessory/ID
-
+:base_url: http://Supportapi.lenovo.com/v2.5/
+:allowed_content:
+  - Manual
+  - Driver
 
