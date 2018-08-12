@@ -51,6 +51,14 @@ module LenovoSupport
       @data = LenovoSupport::Base.get_request("Content", {"ID" => id})
     end
 
+    def inspect
+      self.to_h
+    end
+
+    def to_s
+      self.to_h.to_s
+    end
+
     def to_h
       {
         id: id,
@@ -105,6 +113,15 @@ module LenovoSupport
     def initialize(data)
       @data = data
     end
+
+    def inspect
+      self.to_h
+    end
+
+    def to_s
+      self.to_h.to_s
+    end
+
 
     def to_h
       {

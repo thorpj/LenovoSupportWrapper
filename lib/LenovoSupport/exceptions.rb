@@ -15,4 +15,8 @@ module LenovoSupport
 
   class NotFound < LenovoSupportException
   end
+
+  class InvalidIDError < LenovoSupportException
+
+  end
 end
