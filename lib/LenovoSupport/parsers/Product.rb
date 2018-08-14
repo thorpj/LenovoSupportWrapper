@@ -38,6 +38,10 @@ module LenovoSupport
       mtm[4..-1]
     end
 
+    def mtm
+      id_parts[-2]
+    end
+
     def in_warranty
       @data["InWarranty"]
     end
@@ -54,10 +58,6 @@ module LenovoSupport
 
     def id_parts
       @data["ID"].split("/")
-    end
-
-    def mtm
-      id_parts[-2]
     end
   end
 end

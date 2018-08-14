@@ -1,5 +1,6 @@
 module LenovoSupport
   class Device
+
     include ActiveAttr::Model
     include ActiveAttr::TypecastedAttributes
 
@@ -17,16 +18,46 @@ module LenovoSupport
     validates :shipped_text, presence: true
     validates :warranty_text, presence: true
 
-    # def self.all
-    #   objects = []
-    #   product_parser = ProductParser LenovoSupport::Base.get_request('Product')
-    #   product_parser.to_h
-    # end
 
-    def self.find(serial)
-      # Product, Parts, Contents{Driver, Manual}
-      product = LenovoSupport::ProductParser.new serial
+    def initialize(serial)
+      @product_parser = ProductParser.new(serial)
+      @product_parts_parser = ProductPartsParser.new(serial)
+      @content_parser = ContentParser.new(serial)
 
     end
+
+    def serial
+      @product_parser.serial
+    end
+
+    def name
+      @product_parser.name
+    end
+
+    def machine_type
+      @product_parser.machine_type
+    end
+
+    def model
+      @product_parser.model
+    end
+
+    def mtm
+      @product_parser.mtm
+    end
+
+    def in_warranty
+      @product_parser.in_warranty
+    end
+
+    def purchased
+      @product_parser.purchased_text
+    end
+
+    def warranty
+      @product_parser.warranty_text
+    end
+
+
   end
 end
