@@ -122,7 +122,6 @@ module LenovoSupport
       self.to_h.to_s
     end
 
-
     def to_h
       {
         title: title,
@@ -149,7 +148,7 @@ module LenovoSupport
       @data["Type"]
     end
 
-    def operating_system
+    def operating_systems
       @data["OperatingSystems"]
     end
 

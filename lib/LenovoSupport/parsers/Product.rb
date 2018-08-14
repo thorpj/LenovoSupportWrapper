@@ -11,7 +11,7 @@ module LenovoSupport
     def to_h
       {
           :serial => serial,
-          :name => name,
+          :label => label,
           :machine_type => machine_type,
           :model => model,
           :in_warranty => in_warranty,
@@ -24,7 +24,7 @@ module LenovoSupport
       serial = id_parts[-1]
     end
 
-    def name
+    def label
       name_parts = @data["Name"].split(" ")
       name_parts[0]
 
@@ -52,6 +52,10 @@ module LenovoSupport
 
     def warranty_text
       @data["Warranty"]
+    end
+
+    def warranty_info
+      warranty_text.to_s
     end
 
     private

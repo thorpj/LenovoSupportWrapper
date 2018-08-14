@@ -1,24 +1,7 @@
+require 'pp'
+
 module LenovoSupport
   class Device
-
-    include ActiveAttr::Model
-    include ActiveAttr::TypecastedAttributes
-
-    attribute :serial, type: String
-    attribute :name, type: String
-    attribute :machine_type, type: String
-    attribute :model, type: String
-    attribute :in_warranty, type: Boolean
-
-    validates :serial, presence: true
-    validates :name, presence: true
-    validates :machine_type, presence: true
-    validates :model, presence: true
-    validates :in_warranty, presence: true
-    validates :shipped_text, presence: true
-    validates :warranty_text, presence: true
-
-
     def initialize(serial)
       @product_parser = ProductParser.new(serial)
       @product_parts_parser = ProductPartsParser.new(serial)
@@ -26,12 +9,20 @@ module LenovoSupport
 
     end
 
+    def to_s
+      "#{label} #{serial} #{mtm} #{in_warranty} #{warranty}"
+    end
+
+    def inspect
+      to_s
+    end
+
     def serial
       @product_parser.serial
     end
 
-    def name
-      @product_parser.name
+    def label
+      @product_parser.label
     end
 
     def machine_type
@@ -47,7 +38,11 @@ module LenovoSupport
     end
 
     def in_warranty
-      @product_parser.in_warranty
+      if @product_parser.in_warranty
+        "In warranty"
+      else
+        "Out of warranty"
+      end
     end
 
     def purchased
@@ -55,7 +50,39 @@ module LenovoSupport
     end
 
     def warranty
-      @product_parser.warranty_text
+      @product_parser.warranty_info
+    end
+
+    def fru
+      @product_parts_parser.fru
+    end
+
+    def name
+      @product_parts_parser.name
+    end
+
+    def description
+      @product_parts_parser.description
+    end
+
+    def type
+      @product_parts_parser.type
+    end
+
+    def images
+      @product_parts_parser.images
+    end
+
+    def substitutes
+      @product_parts_parser.substitutes
+    end
+
+    def drivers
+      @content_parser.drivers
+    end
+
+    def manuals
+      @content_parser.manuals
     end
 
 

@@ -55,7 +55,7 @@ module LenovoSupport
     def to_h
       {
           fru: fru,
-          name: name,
+          label: label,
           description: description,
           type: type,
           images: images,
@@ -67,7 +67,7 @@ module LenovoSupport
       @data["ID"]
     end
 
-    def name
+    def label
       @data["Name"]
     end
 
