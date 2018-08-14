@@ -4,7 +4,10 @@ module LenovoSupport
 
       attr_accessor :config
       def initialize
-        @config = YAML::load_file('../config/config.yaml')
+        puts File.dirname(__FILE__)
+        @config = YAML::load_file(File.expand_path('../../config/config.yaml', File.dirname(__FILE__)))
+
+
       end
 
       def [](v)

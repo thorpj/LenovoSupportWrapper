@@ -24,7 +24,6 @@ module LenovoSupport
     yield self.configuration if block_given?
     self.configuration.config
   end
-  require '../config/secrets.rb'
-
+  require File.expand_path('../config/secrets.rb', File.dirname(__FILE__))
 
 end
