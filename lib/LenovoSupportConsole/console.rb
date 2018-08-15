@@ -2,45 +2,65 @@
 require File.expand_path('../LenovoSupport', File.dirname(__FILE__))
 
 class Console
-  def self.start
-    devices = {}
 
-    loop do
-      Display.prompt
-      input = gets.chomp
-      command, *params = input.split /\s/
+  attr_reader :devices
 
-      if command =~ /\Aexit\z/i
-        exit(0)
+  def initialize
+    @devices = {}
+  end
+
+  def add_device(device)
+    @devices[device.serial] = device
+  end
+
+  def remove_device(device)
+    @devices.delete(device)
+  end
+
+  def start
+    begin
+      loop do
+        Console.prompt
+        input = gets.chomp
+        command, *params = input.split /\s/
+
+        if command =~ /\Aexit\z/i
+          exit(0)
+        end
+        puts run(command, *params)
       end
-      serial = params[0]
-      device = devices[serial] || ::LenovoSupport::Device.new(serial)
-
-      puts device.send(command)
-      devices[device.serial] = device
-
-
-      # case command
-      # when /\Adevice\z/i || /\Ad\z/i
-      # when /\Apart\z/i || /\Ap\z/i
-      # when /\Acontent\z/i || /\Ac\z/i
-      # when /\Adevice_parts\z/i || /\Adp\z/i
-      # when /\Adevice_contents\z/i || /\Adc\z/i
-      # end
-
-
+    rescue Interrupt
+      exit(0)
     end
   end
 
+  def run(command, *params)
+    if command and ::LenovoSupport::Device.instance_methods.include? command.to_sym
+      serial = params[0]
+      device = @devices[serial] || ::LenovoSupport::Device.new(serial)
+      add_device(device)
+      return device.send(command)
+    else
+      print "Command not found"
+    end
+  end
 
-
-end
-
-class Display
   def self.prompt
     puts "Enter <command> <serial>"
   end
 end
 
-Console.start
+def main
+  console = Console.new
 
+  if ARGV.empty?
+    console.start
+  else
+    command = ARGV[0]
+    *params = ARGV[1..-1]
+    puts console.run(command, *params)
+    exit(0)
+  end
+end
+
+main
