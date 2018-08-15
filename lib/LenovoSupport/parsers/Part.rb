@@ -2,7 +2,7 @@ module LenovoSupport
   class ProductPartsParser
     def initialize(serial)
       @data = LenovoSupport::Base.get_request("Part", {"Product" => serial})
-      @parts = []
+      @parts = {}
     end
 
     def inspect
@@ -24,10 +24,14 @@ module LenovoSupport
       @data.each do |part|
         id = part["ID"]
         if LenovoSupport::PartParser.valid_id? id
-          @parts << PartParser.new(id)
+          @parts[id] = PartParser.new(id)
         end
       end
       @parts
+    end
+
+    def self.find_part(id)
+      @parts[id]
     end
   end
 
@@ -58,8 +62,8 @@ module LenovoSupport
           label: label,
           description: description,
           type: type,
-          images: images,
-          substitues: substitutes,
+          # images: images,
+          # substitues: substitutes,
       }
     end
 

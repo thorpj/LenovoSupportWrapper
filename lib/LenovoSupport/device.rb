@@ -5,6 +5,7 @@ module LenovoSupport
       @product_parser = nil
       @product_parts_parser = nil
       @content_parser = nil
+      @part_parser = nil
       @serial = serial
     end
 
@@ -14,6 +15,10 @@ module LenovoSupport
 
     def product_parts_parser
       @product_parts_parser || ProductPartsParser.new(@serial)
+    end
+
+    def part_parser(id)
+      @part_parser = PartParser.new(id)
     end
 
     def content_parser
@@ -32,7 +37,7 @@ module LenovoSupport
       product_parser.serial
     end
 
-    def label
+    def model_name
       product_parser.label
     end
 
@@ -64,28 +69,12 @@ module LenovoSupport
       product_parser.warranty_info
     end
 
-    def fru
-      product_parts_parser.fru
+    def parts
+      product_parts_parser.parts
     end
 
-    def name
-      product_parts_parser.name
-    end
-
-    def description
-      product_parts_parser.description
-    end
-
-    def type
-      product_parts_parser.type
-    end
-
-    def images
-      product_parts_parser.images
-    end
-
-    def substitutes
-      product_parts_parser.substitutes
+    def part(id)
+      product_parts_parser.find_part(id)
     end
 
     def drivers
@@ -95,7 +84,5 @@ module LenovoSupport
     def manuals
       content_parser.manuals
     end
-
-
   end
 end
