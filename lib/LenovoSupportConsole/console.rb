@@ -1,4 +1,5 @@
-require '../LenovoSupport'
+# require '../LenovoSupport'
+require File.expand_path('../LenovoSupport', File.dirname(__FILE__))
 
 class Console
   def self.start
@@ -15,7 +16,7 @@ class Console
       serial = params[0]
       device = devices[serial] || ::LenovoSupport::Device.new(serial)
 
-      puts device.send("mtm")
+      puts device.send(command)
       devices[device.serial] = device
 
 
