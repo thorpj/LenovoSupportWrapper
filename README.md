@@ -29,10 +29,14 @@ Or install it yourself as:
 You can query for information using the included console application.
 Try calling the console with the argument, 'help'
 #### Windows - Powershell
+Creates a new Powershell profile
+
+    new-item $PROFILE.CurrentUserAllHosts -ItemType file -Force
+Add the following to the file
+
     set-alias lencon Call-LenovoSupportConsole
     function Call-LenovoSupportConsole { ruby <path to project>/lib/LenovoSupportConsole/console.rb $args }
 
-TODO: Write usage instructions here
 
 ## Development
 

@@ -1,6 +1,7 @@
 # require '../LenovoSupport'
 require 'clipboard'
 require File.expand_path('../LenovoSupport', File.dirname(__FILE__))
+require 'yaml'
 
 class Console
   include Clipboard
@@ -16,6 +17,12 @@ class Console
 
   def remove_device(device)
     @devices.delete(device)
+  end
+
+  def write_to_file(content)
+    File.open(File.expand_path('../../output.yaml', File.dirname(__FILE__)), "w") do |file|
+      file.write content.to_yaml
+    end
   end
 
   def start
@@ -61,12 +68,14 @@ class Console
         ret.each do |item|
           new_ret << item + "\n"
         end
+        write_to_file(ret)
         ret = new_ret
       elsif ret.kind_of?(Hash)
         new_ret = ""
         ret.each do |key, value|
           new_ret << "#{key}: #{value}" + "\n"
         end
+        write_to_file(ret)
         ret = new_ret
       end
       Clipboard.copy(ret)
