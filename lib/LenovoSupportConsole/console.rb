@@ -4,7 +4,6 @@ require File.expand_path('../LenovoSupport', File.dirname(__FILE__))
 require 'yaml'
 
 class Console
-  include Clipboard
   attr_reader :devices
 
   def initialize
@@ -20,8 +19,18 @@ class Console
   end
 
   def write_to_file(content)
-    File.open(File.expand_path('../../output.yaml', File.dirname(__FILE__)), "w") do |file|
-      file.write content.to_yaml
+    fallback_path = File.expand_path('../../output.yaml', File.dirname(__FILE__))
+    path = File.join(Dir.pwd, 'output.yaml')
+    begin
+      File.open(path, "w") do |file|
+        file.write content
+      end
+      puts "Written to: #{path}"
+    rescue Errno::EACCES
+      puts "Couldn't write to #{path}, writing to #{fallback_path }"
+      File.open(fallback_path, "w") do |file|
+        file.write content
+      end
     end
   end
 
@@ -66,14 +75,14 @@ class Console
       if ret.kind_of?(Array)
         new_ret = ""
         ret.each do |item|
-          new_ret << item + "\n"
+          new_ret << item.to_s + "\n"
         end
         write_to_file(ret)
         ret = new_ret
       elsif ret.kind_of?(Hash)
         new_ret = ""
         ret.each do |key, value|
-          new_ret << "#{key}: #{value}" + "\n"
+          new_ret << "#{key.to_s}: #{value.to_s}" + "\n"
         end
         write_to_file(ret)
         ret = new_ret
