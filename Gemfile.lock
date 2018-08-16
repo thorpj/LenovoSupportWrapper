@@ -21,13 +21,15 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    awesome_print (1.8.0)
+    clipboard (1.1.2)
     concurrent-ruby (1.0.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.3)
     faraday (0.15.2)
       multipart-post (>= 1.2, < 3)
+    ffi (1.9.25)
+    ffi (1.9.25-x64-mingw32)
     hashdiff (0.3.7)
     httparty (0.16.2)
       multi_xml (>= 0.5.2)
@@ -67,9 +69,10 @@ PLATFORMS
 
 DEPENDENCIES
   LenovoSupport!
-  awesome_print
   bundler (~> 1.16)
+  clipboard
   faraday
+  ffi
   httparty (~> 0.16.2)
   minitest
   rake (~> 10.0)
