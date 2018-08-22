@@ -1,13 +1,15 @@
 
 module LenovoSupport
   class Device
-    def initialize(serial)
+    def initialize(serial, token)
       @product_parser = nil
       @product_parts_parser = nil
       @content_parser = nil
       @part_parser = nil
       @serial = serial
     end
+
+
 
     def product_parser
       @product_parser || ProductParser.new(@serial)
