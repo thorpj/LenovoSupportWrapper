@@ -27,7 +27,10 @@ module LenovoSupport
   begin
     require File.expand_path('../config/secrets.rb', File.dirname(__FILE__))
   rescue LoadError
+  end
 
+  def LenovoSupport::Setup(token)
+    self.config[:access_token] = token
   end
 
 end
