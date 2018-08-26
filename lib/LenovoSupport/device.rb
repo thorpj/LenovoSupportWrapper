@@ -31,6 +31,16 @@ module LenovoSupport
       "#{model_name} #{serial} #{mtm} #{in_warranty} #{warranty}"
     end
 
+    def to_h
+      {
+          serial: serial,
+          model_name: model_name,
+          machine_type: machine_type,
+          model: model,
+          mtm: mtm,
+      }
+    end
+
     def inspect
       to_s
     end
