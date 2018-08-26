@@ -38,6 +38,7 @@ module LenovoSupport
           machine_type: machine_type,
           model: model,
           mtm: mtm,
+          manufacturer: "Lenovo"
       }
     end
 
