@@ -26,7 +26,7 @@ module LenovoSupport
     end
 
     def to_s
-      "#{label} #{serial} #{mtm} #{in_warranty} #{warranty}"
+      "#{model_name} #{serial} #{mtm} #{in_warranty} #{warranty}"
     end
 
     def inspect
