@@ -24,6 +24,13 @@ module LenovoSupport
     yield self.configuration if block_given?
     self.configuration.config
   end
-  require File.expand_path('../config/secrets.rb', File.dirname(__FILE__))
+  begin
+    require File.expand_path('../config/secrets.rb', File.dirname(__FILE__))
+  rescue LoadError
+  end
+
+  def LenovoSupport::Setup(token)
+    self.config[:access_token] = token
+  end
 
 end

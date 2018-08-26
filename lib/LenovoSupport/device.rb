@@ -9,6 +9,8 @@ module LenovoSupport
       @serial = serial
     end
 
+
+
     def product_parser
       @product_parser || ProductParser.new(@serial)
     end

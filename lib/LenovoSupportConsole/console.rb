@@ -1,5 +1,7 @@
 # require '../LenovoSupport'
+require 'clipboard'
 require File.expand_path('../LenovoSupport', File.dirname(__FILE__))
+require 'yaml'
 
 class Console
   attr_reader :devices
@@ -14,6 +16,22 @@ class Console
 
   def remove_device(device)
     @devices.delete(device)
+  end
+
+  def write_to_file(content)
+    fallback_path = File.expand_path('../../output.yaml', File.dirname(__FILE__))
+    path = File.join(Dir.pwd, 'output.yaml')
+    begin
+      File.open(path, "w") do |file|
+        file.write content
+      end
+      puts "Written to: #{path}"
+    rescue Errno::EACCES
+      puts "Couldn't write to #{path}, writing to #{fallback_path }"
+      File.open(fallback_path, "w") do |file|
+        file.write content
+      end
+    end
   end
 
   def start
@@ -41,7 +59,7 @@ class Console
     if command and ::LenovoSupport::Device.instance_methods.include? command.to_sym
       serial = params[0]
       begin
-        device = @devices[serial] || ::LenovoSupport::Device.new(serial)
+        device = @devices[serial] || ::LenovoSupport::Device.new(serial, ::LenovoSupport::config[:token])
         add_device(device)
       rescue LenovoSupport::APIError
         puts "Invalid id"
@@ -57,18 +75,20 @@ class Console
       if ret.kind_of?(Array)
         new_ret = ""
         ret.each do |item|
-          new_ret << item + "\n"
+          new_ret << item.to_s + "\n"
         end
-        return new_ret
+        write_to_file(ret)
+        ret = new_ret
       elsif ret.kind_of?(Hash)
         new_ret = ""
         ret.each do |key, value|
-          new_ret << "#{key}: #{value}" + "\n"
+          new_ret << "#{key.to_s}: #{value.to_s}" + "\n"
         end
-        return new_ret
-      else
-        return ret
+        write_to_file(ret)
+        ret = new_ret
       end
+      Clipboard.copy(ret)
+      return ret
     else
       print "Command not found"
     end
