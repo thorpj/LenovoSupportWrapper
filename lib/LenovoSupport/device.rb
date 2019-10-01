@@ -9,6 +9,8 @@ module LenovoSupport
       @serial = serial
     end
 
+
+
     def product_parser
       @product_parser || ProductParser.new(@serial)
     end
@@ -26,7 +28,19 @@ module LenovoSupport
     end
 
     def to_s
-      "#{label} #{serial} #{mtm} #{in_warranty} #{warranty}"
+      "#{model_name} #{serial} #{mtm} #{in_warranty} #{warranty}"
+    end
+
+    def to_h
+      {
+          serial: serial,
+          model_name: model_name,
+          machine_type: machine_type,
+          model: model,
+          mtm: mtm,
+          manufacturer: "Lenovo",
+          warranty: warranty,
+      }
     end
 
     def inspect

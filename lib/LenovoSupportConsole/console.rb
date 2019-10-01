@@ -59,7 +59,7 @@ class Console
     if command and ::LenovoSupport::Device.instance_methods.include? command.to_sym
       serial = params[0]
       begin
-        device = @devices[serial] || ::LenovoSupport::Device.new(serial)
+        device = @devices[serial] || ::LenovoSupport::Device.new(serial, ::LenovoSupport::config[:token])
         add_device(device)
       rescue LenovoSupport::APIError
         puts "Invalid id"
