@@ -60,3 +60,4 @@ node_modules/
 **/.idea/workspace.xml **/.idea/tasks.xml
 
 output.yaml
+/config/*.csv
