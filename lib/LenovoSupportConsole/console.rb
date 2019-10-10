@@ -1,4 +1,4 @@
-# require '../LenovoSupport'
+# require_relative '../LenovoSupport'
 require 'clipboard'
 require File.expand_path('../LenovoSupport', File.dirname(__FILE__))
 require 'yaml'
@@ -8,6 +8,8 @@ class Console
 
   def initialize
     @devices = {}
+    
+
   end
 
   def add_device(device)
@@ -59,7 +61,7 @@ class Console
     if command and ::LenovoSupport::Device.instance_methods.include? command.to_sym
       serial = params[0]
       begin
-        device = @devices[serial] || ::LenovoSupport::Device.new(serial, ::LenovoSupport::config[:token])
+        device = @devices[serial] || ::LenovoSupport::Device.new(serial)
         add_device(device)
       rescue LenovoSupport::APIError
         puts "Invalid id"
