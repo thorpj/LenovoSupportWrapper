@@ -16,8 +16,17 @@ module LenovoSupport
           :model => model,
           :in_warranty => in_warranty,
           :purchased_text => purchased_text,
-          :warranty_text => warranty_text,
+          :warranty_description => warranty_description,
       }
+    end
+
+    def to_s
+      if !serial.nil? and !machine_type.nil?
+        "#{serial} / #{name} / #{machine_type}"
+      else
+        name
+      end
+
     end
 
     def serial
@@ -50,12 +59,21 @@ module LenovoSupport
       @data["Purchased"]
     end
 
-    def warranty_text
-      @data["Warranty"]
+    def warranty_description
+      text = []
+      original_text = @data["Warranty"]
+      original_text.gsub('=>', ':')
+      unless original_text.blank?
+        original_text.each do |warranty|
+          next if warranty.blank?
+          text << "#{warranty.fetch('Name', '')}: #{warranty["Start"].split("T00")[0]} - #{warranty["End"].split("T00")[0]}"
+        end
+      end
+      text
     end
 
     def warranty_info
-      warranty_text.to_s
+      warranty_description.to_s
     end
 
     private
