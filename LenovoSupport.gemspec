@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "LenovoSupport"
   spec.version       = LenovoSupport::VERSION
   spec.authors       = ["Joe Thorpe"]
-  spec.email         = ["jthorpe@stotthoare.com.au"]
+  spec.email         = ["thorpejoe4@gmail.com"]
 
   spec.summary       = %q{Wrapper for Lenovo Support API}
   # spec.homepage      = "TODO: Put your gem's website or public repo URL here."
