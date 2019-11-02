@@ -1,6 +1,6 @@
 
 module LenovoSupport
-  class Device
+  module Device
     def initialize(serial)
       @product_parser = nil
       @product_parts_parser = nil
@@ -28,7 +28,12 @@ module LenovoSupport
     end
 
     def to_s
-      "#{model_name} #{serial} #{mtm} #{in_warranty} #{warranty}"
+      if !serial.nil? and !machine_type.nil?
+        "#{serial} / #{name} / #{machine_type}"
+      else
+        name
+      end
+
     end
 
     def to_h
@@ -39,7 +44,7 @@ module LenovoSupport
           model: model,
           mtm: mtm,
           manufacturer: "Lenovo",
-          warranty: warranty,
+          warranty_description: warranty_description,
       }
     end
 
@@ -79,8 +84,12 @@ module LenovoSupport
       product_parser.purchased_text
     end
 
+    def warranty_description
+      product_parser.warranty_description
+    end
+
     def warranty
-      product_parser.warranty_info
+      warranty_description
     end
 
     def parts

@@ -20,23 +20,14 @@ module LenovoSupport
       }
     end
 
-    def to_s
-      if !serial.nil? and !machine_type.nil?
-        "#{serial} / #{name} / #{machine_type}"
-      else
-        name
-      end
 
-    end
 
     def serial
-      serial = id_parts[-1]
+      id_parts[-1]
     end
 
     def label
-      name_parts = @data["Name"].split(" ")
-      name_parts[0]
-
+      (@data["Name"].split(" "))[0]
     end
 
     def machine_type
@@ -72,9 +63,6 @@ module LenovoSupport
       text
     end
 
-    def warranty_info
-      warranty_description.to_s
-    end
 
     private
 
