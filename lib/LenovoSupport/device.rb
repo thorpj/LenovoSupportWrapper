@@ -57,10 +57,6 @@ module LenovoSupport
       to_s
     end
 
-    def serial
-      @serial
-    end
-
     def model_name
       product_parser.label
     end
