@@ -1,34 +1,39 @@
-
 module LenovoSupport
-  module Device
-    def initialize(serial)
-      @product_parser = nil
-      @product_parts_parser = nil
-      @content_parser = nil
-      @part_parser = nil
-      @serial = serial
-    end
-
-
-
+  module DeviceHelpers
     def product_parser
-      @product_parser || ProductParser.new(@serial)
+      if defined? @product_parser and !(@product_parser.nil?)
+        @product_parser
+      else
+        @product_parser = ProductParser.new(serial)
+      end
     end
 
     def product_parts_parser
-      @product_parts_parser || ProductPartsParser.new(@serial)
+      if defined? @product_parts_parser and !(@product_parts_parser.nil?)
+        @product_parts_parser
+      else
+        @product_parts_parser = ProductPartsParser.new(serial)
+      end
     end
 
     def part_parser(id)
-      @part_parser = PartParser.new(id)
+      if defined? @part_parser and !(@part_parser.nil?)
+        @part_parser
+      else
+        @part_parser = PartParser.new(id)
+      end
     end
 
     def content_parser
-      @content_parser || ContentParser.new(@serial)
+      if defined? @content_parser and !(@content_parser.nil?)
+        @content_parser
+      else
+        @content_parser = ContentParser.new(serial)
+      end
     end
 
     def to_s
-      if !serial.nil? and !machine_type.nil?
+      if !(serial.nil?) and !(machine_type.nil?)
         "#{serial} / #{name} / #{machine_type}"
       else
         name
@@ -106,6 +111,15 @@ module LenovoSupport
 
     def manuals
       content_parser.manuals
+    end
+  end
+
+
+  class Device
+    include LenovoSupport::DeviceHelpers
+
+    def initialize(serial)
+      @serial = serial
     end
   end
 end
