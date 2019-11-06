@@ -34,9 +34,9 @@ module LenovoSupport
 
     def to_s
       if !(serial.nil?) and !(machine_type.nil?)
-        "#{serial} / #{name} / #{machine_type}"
+        "#{serial} / #{model_name} / #{machine_type}"
       else
-        name
+        model_name
       end
 
     end
@@ -59,18 +59,6 @@ module LenovoSupport
 
     def model_name
       product_parser.label
-    end
-
-    def machine_type
-      product_parser.machine_type
-    end
-
-    def model
-      product_parser.model
-    end
-
-    def mtm
-      product_parser.mtm
     end
 
     def in_warranty
@@ -116,6 +104,22 @@ module LenovoSupport
 
     def initialize(serial)
       @serial = serial
+    end
+
+    def machine_type
+      product_parser.machine_type
+    end
+
+    def model
+      product_parser.model
+    end
+
+    def mtm
+      product_parser.mtm
+    end
+
+    def name
+      to_s
     end
   end
 end
