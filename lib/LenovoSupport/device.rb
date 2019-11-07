@@ -96,6 +96,10 @@ module LenovoSupport
     def manuals
       content_parser.manuals
     end
+
+    def mtm
+      product_parser.mtm
+    end
   end
 
 
@@ -116,10 +120,6 @@ module LenovoSupport
 
     def model
       product_parser.model
-    end
-
-    def mtm
-      product_parser.mtm
     end
 
     def name
