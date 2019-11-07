@@ -32,10 +32,6 @@ module LenovoSupport
       end
     end
 
-    def model_name
-      product_parser.label
-    end
-
     def in_warranty
       if product_parser.in_warranty
         "In warranty"
@@ -97,8 +93,8 @@ module LenovoSupport
       product_parser.model
     end
 
-    def name
-      to_s
+    def model_name
+      product_parser.label
     end
 
     def to_s
@@ -107,7 +103,10 @@ module LenovoSupport
       else
         model_name
       end
+    end
 
+    def name
+      to_s
     end
 
     def to_h
