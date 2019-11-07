@@ -106,6 +106,10 @@ module LenovoSupport
       @serial = serial
     end
 
+    def serial
+      @serial
+    end
+
     def machine_type
       product_parser.machine_type
     end

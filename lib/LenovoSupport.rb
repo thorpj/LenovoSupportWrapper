@@ -33,5 +33,4 @@ module LenovoSupport
   def LenovoSupport::Setup(token)
     self.config[:access_token] = token
   end
-
 end

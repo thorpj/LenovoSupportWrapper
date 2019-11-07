@@ -53,13 +53,11 @@ module LenovoSupport
     def warranty_description
       text = []
       original_text = @data["Warranty"]
-      original_text.gsub('=>', ':')
-      unless original_text.blank?
-        original_text.each do |warranty|
-          next if warranty.blank?
-          text << "#{warranty.fetch('Name', '')}: #{warranty["Start"].split("T00")[0]} - #{warranty["End"].split("T00")[0]}"
-        end
+      original_text.each do |warranty|
+        next if warranty.nil? or warranty.empty?
+        text << "#{warranty.fetch('Name', '')}: #{warranty["Start"].split("T00")[0]} - #{warranty["End"].split("T00")[0]}"
       end
+      # end
       text
     end
 
