@@ -32,31 +32,6 @@ module LenovoSupport
       end
     end
 
-    def to_s
-      if !(serial.nil?) and !(machine_type.nil?)
-        "#{serial} / #{model_name} / #{machine_type}"
-      else
-        model_name
-      end
-
-    end
-
-    def to_h
-      {
-          serial: serial,
-          model_name: model_name,
-          machine_type: machine_type,
-          model: model,
-          mtm: mtm,
-          manufacturer: "Lenovo",
-          warranty_description: warranty_description,
-      }
-    end
-
-    def inspect
-      to_s
-    end
-
     def model_name
       product_parser.label
     end
@@ -123,6 +98,31 @@ module LenovoSupport
     end
 
     def name
+      to_s
+    end
+
+    def to_s
+      if !(serial.nil?) and !(machine_type.nil?)
+        "#{serial} / #{model_name} / #{machine_type}"
+      else
+        model_name
+      end
+
+    end
+
+    def to_h
+      {
+          serial: serial,
+          model_name: model_name,
+          machine_type: machine_type,
+          model: model,
+          mtm: mtm,
+          manufacturer: "Lenovo",
+          warranty_description: warranty_description,
+      }
+    end
+
+    def inspect
       to_s
     end
   end
