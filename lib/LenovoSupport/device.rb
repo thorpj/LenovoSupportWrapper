@@ -1,5 +1,9 @@
 module LenovoSupport
-  module DeviceHelpers
+  class Device
+    def initialize(serial)
+      @serial = serial
+    end
+
     def product_parser
       if defined? @product_parser and !(@product_parser.nil?)
         @product_parser
@@ -52,14 +56,6 @@ module LenovoSupport
       warranty_description
     end
 
-    def parts
-      product_parts_parser.parts
-    end
-
-    def part(id)
-      product_parts_parser.find_part(id)
-    end
-
     def drivers
       content_parser.drivers
     end
@@ -70,15 +66,6 @@ module LenovoSupport
 
     def mtm
       product_parser.mtm
-    end
-  end
-
-
-  class Device
-    include LenovoSupport::DeviceHelpers
-
-    def initialize(serial)
-      @serial = serial
     end
 
     def serial
@@ -119,6 +106,14 @@ module LenovoSupport
           manufacturer: "Lenovo",
           warranty_description: warranty_description,
       }
+    end
+
+    def parts
+      product_parts_parser.parts
+    end
+
+    def part(id)
+      product_parts_parser.find_part(id)
     end
 
     def inspect
