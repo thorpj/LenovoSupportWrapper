@@ -39,7 +39,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     public_suffix (3.0.3)
-    rake (10.5.0)
+    rake (13.0.1)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
@@ -75,7 +75,7 @@ DEPENDENCIES
   ffi
   httparty (~> 0.16.2)
   minitest
-  rake (~> 10.0)
+  rake (~> 13.0)
   rspec (~> 3.7.0)
   vcr
   webmock
