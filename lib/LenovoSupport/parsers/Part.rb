@@ -101,9 +101,9 @@ module LenovoSupport
     def to_h
       {
           fru: fru,
-          label: label,
           description: description,
-          type: type,
+          category: category,
+          level: level
           # images: images,
           # substitues: substitutes,
       }
@@ -113,7 +113,7 @@ module LenovoSupport
       @data["ID"]
     end
 
-    def label
+    def name
       @data["Name"]
     end
 
@@ -121,12 +121,16 @@ module LenovoSupport
       @data["Description"]
     end
 
-    def type
+    def category
       @data["Type"]
     end
 
     def images
       @data["Images"]
+    end
+
+    def level
+      @data["Level"]
     end
 
     def substitutes
