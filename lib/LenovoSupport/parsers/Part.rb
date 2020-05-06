@@ -66,6 +66,15 @@ module LenovoSupport
       @name = hash["Name"]
       @level = hash["Level"]
     end
+
+    def to_h
+      {
+          fru: @fru,
+          category: @category,
+          name: @name,
+          level: @level
+      }
+    end
   end
 
   class PartParser

@@ -112,6 +112,10 @@ module LenovoSupport
       product_parts_parser.parts
     end
 
+    def compatible_parts
+      product_parts_parser.compatible_parts
+    end
+
     def model_parts
       product_parts_parser.mt_parts
     end
