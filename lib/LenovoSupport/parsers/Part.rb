@@ -38,6 +38,11 @@ module LenovoSupport
       select_parts Level::MTM
     end
 
+    def compatible_parts
+      combined = serial_parts + mtm_parts
+      combined.uniq { |part| part.fru }
+    end
+
     def parts
       return @parts unless @parts.nil?
       @data.map { |part| Part.new(part) if part["Name"] != ""}.compact

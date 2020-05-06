@@ -3,6 +3,7 @@ require_relative 'LenovoSupport/version'
 module LenovoSupport
   # require 'active_support'
   # require 'active_attr'
+  require 'vcr'
 
   require_relative 'LenovoSupport/config'
   require_relative 'LenovoSupport/base'
@@ -14,6 +15,9 @@ module LenovoSupport
   require_relative 'LenovoSupport/parsers/Part'
   require_relative 'LenovoSupport/parsers/Product'
 
+  ::VCR.configure do |config|
+    config.allow_http_connections_when_no_cassette = true
+  end
 
 
   def LenovoSupport.config

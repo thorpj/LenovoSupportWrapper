@@ -14,7 +14,7 @@ class LenovoSupportTest < Minitest::Test
   end
 
   def test_get_parts
-    serial = ''
+    serial = 'LR04MPAY'
     parser = ::LenovoSupport::ProductPartsParser.new(serial)
     byebug
   end
