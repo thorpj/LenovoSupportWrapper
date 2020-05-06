@@ -95,7 +95,7 @@ module LenovoSupport
     end
 
     def to_s
-      self.to_h.to_s
+      "##{self.class.name}:#{self.object_id} fru:#{fru} name:#{name} category:#{category} level:#{level}"
     end
 
     def to_h
@@ -107,6 +107,16 @@ module LenovoSupport
           # images: images,
           # substitues: substitutes,
       }
+    end
+
+    def to_part
+      hash = {
+          fru: fru,
+          category: category,
+          name: name,
+          level: level
+      }
+      Part.new(hash)
     end
 
     def fru
