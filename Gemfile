@@ -7,3 +7,5 @@ gemspec
 
 gem 'clipboard'
 gem 'ffi' #, :platforms => [:mswin, :mingw]
+gem 'httparty'
+gem 'byebug'

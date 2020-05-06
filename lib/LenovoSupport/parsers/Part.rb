@@ -1,37 +1,65 @@
 module LenovoSupport
+  module Level
+    SERIAL = 'SERIAL'
+    MTM = 'MTM'
+    MT = 'MT'
+  end
+
   class ProductPartsParser
+    attr_accessor :data, :serial
+
     def initialize(serial)
-      @data = LenovoSupport::Base.get_request("Part", {"Product" => serial})
-      @parts = {}
+      @serial = serial
+      @data = LenovoSupport::Base.get_request("Part", {"Product" => @serial})
+      @parts = parts
     end
 
     def inspect
-      self.to_h
+      self.to_s
     end
 
     def to_s
-      self.to_h.to_s
+      "##{self.class.name}:#{self.object_id} serial:#{@serial}"
     end
 
     def to_h
       @parts
     end
 
+    def mt_parts
+      select_parts Level::MT
+    end
+
+    def serial_parts
+      select_parts Level::SERIAL
+    end
+
+    def mtm_parts
+      select_parts Level::MTM
+    end
+
     def parts
-      unless @parts.empty?
-        return @parts
-      end
-      @data.each do |part|
-        id = part["ID"]
-        if LenovoSupport::PartParser.valid_id? id
-          @parts[id] = PartParser.new(id)
-        end
-      end
-      @parts
+      return @parts unless @parts.nil?
+      @data.map { |part| Part.new(part) if part["Name"] != ""}.compact
+    end
+
+    def select_parts(level)
+      parts.select { |part| part.level == level}
     end
 
     def self.find_part(id)
       @parts[id]
+    end
+  end
+
+  class Part
+    attr_reader :fru, :category, :name, :level
+
+    def initialize(hash)
+      @fru = hash["ID"]
+      @category = hash["Type"]
+      @name = hash["Name"]
+      @level = hash["Level"]
     end
   end
 

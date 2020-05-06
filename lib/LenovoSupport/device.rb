@@ -112,6 +112,18 @@ module LenovoSupport
       product_parts_parser.parts
     end
 
+    def model_parts
+      product_parts_parser.mt_parts
+    end
+    
+    def mtm_parts
+      product_parts_parser.mtm_parts
+    end
+    
+    def serial_parts
+      product_parts_parser.serial_parts
+    end
+
     def part(id)
       product_parts_parser.find_part(id)
     end
