@@ -102,7 +102,7 @@ module LenovoSupport
     def to_h
       {
           fru: fru,
-          description: description,
+          name: name,
           category: category,
           level: level
           # images: images,
