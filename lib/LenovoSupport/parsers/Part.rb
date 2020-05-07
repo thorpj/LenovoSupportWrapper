@@ -12,6 +12,9 @@ module LenovoSupport
       @serial = serial
       @data = LenovoSupport::Base.get_request("Part", {"Product" => @serial})
       @parts = parts
+    rescue StandardError => error
+      puts "#{error.inspect} #{error.message}"
+      raise LenovoSupport::InvalidIDError
     end
 
     def inspect
@@ -108,16 +111,6 @@ module LenovoSupport
           # images: images,
           # substitues: substitutes,
       }
-    end
-
-    def to_part
-      hash = {
-          fru: fru,
-          category: category,
-          name: name,
-          level: level
-      }
-      Part.new(hash)
     end
 
     def fru
