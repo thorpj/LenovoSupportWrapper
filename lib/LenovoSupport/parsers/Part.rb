@@ -41,7 +41,7 @@ module LenovoSupport
     def compatible_parts
       combined = serial_parts + mtm_parts
       combined.uniq { |part| part.fru }
-      combined.reject! { |part| part.category.nil? || part.fru.nil? || part.name.nil? || part.level.nil? }
+      combined.reject { |part| part.category.nil? || part.fru.nil? || part.name.nil? || part.level.nil? }
     end
 
     def parts
