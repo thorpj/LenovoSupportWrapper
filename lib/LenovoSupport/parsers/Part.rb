@@ -14,7 +14,7 @@ module LenovoSupport
       @parts = parts
     rescue StandardError => error
       puts "#{error.inspect} #{error.message}"
-      raise LenovoSupport::InvalidIDError
+      raise LenovoSupport::ApiError.new(error)
     end
 
     def inspect
@@ -83,10 +83,11 @@ module LenovoSupport
 
   class PartParser
     def initialize(id)
-      if LenovoSupport::PartParser::valid_id? id
+      begin
         @data = LenovoSupport::Base.get_request("Part", {"ID" => id})
-      else
-        raise LenovoSupport::InvalidIDError
+      rescue => error
+        puts "#{error.inspect} #{error.message}"
+        raise LenovoSupport::ApiError.new(error)
       end
     end
 

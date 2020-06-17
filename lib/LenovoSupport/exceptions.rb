@@ -19,4 +19,8 @@ module LenovoSupport
   class InvalidIDError < LenovoSupportException
 
   end
+
+  class ApiError < LenovoSupportException
+
+  end
 end
